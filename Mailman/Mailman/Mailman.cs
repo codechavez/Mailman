@@ -55,9 +55,7 @@ namespace Mailman
                 smtp.Port = int.Parse(ConfigurationManager.AppSettings["SMTP:Port"]);       
 #endif
 
-
         }
-
         private Mailman(MailAddress fromemail)
         {
             try
@@ -70,13 +68,7 @@ namespace Mailman
                 throw;
             }
         }
-
-        public static IMailmanHeader From(MailAddress from)
-        {
-            return new Mailman(from);
-        }
-             
-
+        public static IMailmanHeader From(MailAddress from) => new Mailman(from);
         public IMailmanHeader To(params string[] toEmails)
         {
             foreach (var email in toEmails)
@@ -84,25 +76,21 @@ namespace Mailman
 
             return this;
         }
-
         public IMailmanBody WithSubject(string subject)
         {
             mail.Subject = subject;
             return this;
         }
-
         public IMailmanBody IsHtml(bool ishtml = true)
         {
             mail.IsBodyHtml = ishtml;
             return this;
         }
-
         public IMailman WithBody(string body)
         {
             mail.Body = body;
             return this;
         }
-
         public IMailman CC(params string[] ccEmails)
         {
             foreach (var cc in ccEmails)
@@ -110,7 +98,6 @@ namespace Mailman
 
             return this;
         }
-
         public IMailman BCC(params string[] BCCEmails)
         {
             foreach (var bcc in BCCEmails)
@@ -118,7 +105,6 @@ namespace Mailman
 
             return this;
         }
-
         public IMailman Attachments(params string[] attachmentsFullPaths)
         {
             foreach (var attach in attachmentsFullPaths)
@@ -126,17 +112,7 @@ namespace Mailman
 
             return this;
         }
-
-        public void Deliver()
-        {
-            try
-            {
-                smtp.Send(mail);
-            }
-            catch
-            {
-                throw;
-            }
-        }
+        public void Deliver() => smtp.Send(mail);
+        
     }
 }
