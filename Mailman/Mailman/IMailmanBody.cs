@@ -1,4 +1,4 @@
-﻿namespace Mailman
+﻿namespace System
 {
     public interface IMailmanBody
     {

@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace Mailman
+namespace System
 {
     public interface IMailman
     {

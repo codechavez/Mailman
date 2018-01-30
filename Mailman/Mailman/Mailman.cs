@@ -11,7 +11,7 @@ using System.Text;
 #endif
 
 
-namespace Mailman
+namespace System
 {
     public class Mailman : IMailmanHeader, IMailmanBody, IMailman
     {
@@ -19,7 +19,7 @@ namespace Mailman
         private readonly SmtpClient smtp = new SmtpClient();
         
 #if NETCOREAPP2_0
-        public static IConfiguration Configuration { get; set; }
+        private static IConfiguration Configuration { get; set; }
 #else
             
 #endif
@@ -34,25 +34,25 @@ namespace Mailman
                 throw new Exception("SMTP host is missing from the configuration file");
             smtp.Host = Configuration["SMTPClient:Host"];
             
-            if (Configuration["SMTP:Useremail"] == null || Configuration["SMTP:Userpwd"] == null)
+            if (Configuration["SMTPClient:Useremail"] == null || Configuration["SMTPClient:Userpwd"] == null)
                 smtp.Credentials = CredentialCache.DefaultNetworkCredentials;
             else
-                smtp.Credentials = new NetworkCredential(Configuration["SMTP:Useremail"], Configuration["SMTP:Userpwd"]);
+                smtp.Credentials = new NetworkCredential(Configuration["SMTPClient:Useremail"], Configuration["SMTPClient:Userpwd"]);
 
-            if(Configuration["SMTP:Port"] != null)
-                smtp.Port = int.Parse(Configuration["SMTP:Port"]);
+            if(Configuration["SMTPClient:Port"] != null)
+                smtp.Port = int.Parse(Configuration["SMTPClient:Port"]);
 #else
             if (ConfigurationManager.AppSettings["SMTPClient:Host"] == null)
                 throw new Exception("SMTP host is missing from the configuration file");
             smtp.Host = ConfigurationManager.AppSettings["SMTPClient:Host"];
 
-            if (ConfigurationManager.AppSettings["SMTP:Useremail"] == null || ConfigurationManager.AppSettings["SMTP:Userpwd"] == null)
+            if (ConfigurationManager.AppSettings["SMTPClient:Useremail"] == null || ConfigurationManager.AppSettings["SMTPClient:Userpwd"] == null)
                 smtp.Credentials = CredentialCache.DefaultNetworkCredentials;
             else
-                smtp.Credentials = new NetworkCredential(ConfigurationManager.AppSettings["SMTP:Useremail"], ConfigurationManager.AppSettings["SMTP:Userpwd"]);
+                smtp.Credentials = new NetworkCredential(ConfigurationManager.AppSettings["SMTPClient:Useremail"], ConfigurationManager.AppSettings["SMTPClient:Userpwd"]);
 
-            if (ConfigurationManager.AppSettings["SMTP:Port"] != null)
-                smtp.Port = int.Parse(ConfigurationManager.AppSettings["SMTP:Port"]);       
+            if (ConfigurationManager.AppSettings["SMTPClient:Port"] != null)
+                smtp.Port = int.Parse(ConfigurationManager.AppSettings["SMTPClient:Port"]);       
 #endif
 
         }
